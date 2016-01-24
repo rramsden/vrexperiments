@@ -1,4 +1,11 @@
+(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 'use strict';
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+var _menu = require("./menu");
+
+var _menu2 = _interopRequireDefault(_menu);
 
 var effect = undefined,
     clock = undefined,
@@ -68,6 +75,9 @@ function init() {
   // Add some light to the scene
   var light = new THREE.HemisphereLight(0xffffbb, 0x080820, 1);
   scene.add(light);
+
+  var menu = new _menu2['default']();
+  menu.start(scene);
 }
 
 function update(dt) {
@@ -100,4 +110,52 @@ function fullscreen() {
 
 init();
 animate();
+
+},{"./menu":2}],2:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+window.textMesh = null;
+window.textGeom = null;
+
+var Menu = (function () {
+  function Menu() {
+    _classCallCheck(this, Menu);
+  }
+
+  _createClass(Menu, [{
+    key: "start",
+    value: function start(scene) {
+      var material = new THREE.MeshPhongMaterial({
+        color: 0xFFFFFF
+      });
+      textGeom = new THREE.TextGeometry("HI", {
+        font: "8bit"
+      });
+      textMesh = new THREE.Mesh(textGeom, material);
+      textMesh.position.set(-70, 70, 0);
+      textGeom.rotateX(-25 * (Math.PI / 180));
+
+      scene.add(textMesh);
+
+      textGeom.computeBoundingBox();
+      textGeom.textWidth = textGeom.boundingBox.max.x - textGeom.boundingBox.min.x;
+    }
+  }]);
+
+  return Menu;
+})();
+
+exports["default"] = Menu;
+module.exports = exports["default"];
+
+},{}]},{},[1,2]);
+
 //# sourceMappingURL=app.js.map

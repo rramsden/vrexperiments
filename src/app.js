@@ -1,3 +1,5 @@
+import Menu from "./menu"
+
 let effect, clock, scene, camera, controls, renderer, container = null;
 
 function init() {
@@ -59,8 +61,11 @@ function init() {
   scene.add(mesh);
 
   // Add some light to the scene
-  var light = new THREE.HemisphereLight( 0xffffbb, 0x080820, 1 );
+  let light = new THREE.HemisphereLight( 0xffffbb, 0x080820, 1 );
   scene.add( light );
+
+  let menu = new Menu();
+  menu.start(scene);
 }
 
 function update(dt) {
