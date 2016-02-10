@@ -1,8 +1,10 @@
-import Menu from "./menu"
 import Debug from "./debug"
+import Cube from "./cube"
 
 let camera, controls, effect, clock,
-  scene, renderer, container = null;
+  scene, renderer, container;
+
+let gameObjects = [];
 
 function init() {
   clock = new THREE.Clock();
@@ -70,13 +72,15 @@ function init() {
   var geometry = new THREE.SphereGeometry( 501, 60, 40 );
   geometry.scale( - 1, 1, 1 );
 
-  var material2 = new THREE.MeshBasicMaterial( {
+  var material = new THREE.MeshBasicMaterial( {
     map: THREE.ImageUtils.loadTexture( 'img/landscape.jpg' )
   } );
 
-  var mesh = new THREE.Mesh( geometry, material2 );
+  var mesh = new THREE.Mesh( geometry, material );
 
   scene.add( mesh );
+
+  gameObjects.push(new Cube(scene));
 }
 
 function resize() {
@@ -94,6 +98,10 @@ function update(dt) {
   resize();
 
   camera.updateProjectionMatrix();
+
+  for(var object of gameObjects) {
+    object.update();
+  }
 
   controls.update(dt)
 }
